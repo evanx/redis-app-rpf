@@ -1,6 +1,6 @@
 {
   "name": "redis-app-rpf",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Redis application archetype.",
   "main": "index.js",
   "scripts": {
@@ -15,7 +15,8 @@
     "cli-color": "^1.1.0",
     "lodash": "^4.17.4",
     "multi-exec-async": "^0.2.0",
-    "redis": "^2.6.4"
+    "redis": "^2.6.4",
+    "redis-logger-rpf": "^0.2.0"
   },
   "devDependencies": {
     "eslint": "^3.12.2"
