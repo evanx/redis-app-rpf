@@ -71,6 +71,7 @@ module.exports = async (spec, main) => {
         end(0);
     } catch (err) {
         console.error(['', clc.red.bold(err.message), ''].join('\n'));
+        console.error(err);
         end(1);
     }
 };
