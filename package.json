@@ -1,6 +1,6 @@
 {
   "name": "redis-app-rpf",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Redis application archetype.",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "author": "@evanxsummers",
   "license": "ISC",
   "dependencies": {
-    "app-spec": "^0.3.5",
+    "app-spec": "^0.3.6",
     "bluebird": "^3.4.6",
     "cli-color": "^1.1.0",
     "lodash": "^4.17.4",
