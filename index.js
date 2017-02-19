@@ -54,9 +54,9 @@ module.exports = async (spec, main) => {
         const defaults = spec[process.env.NODE_ENV || 'production'];
         const config = appSpec(spec, process.env, {defaults});
         const client = redis.createClient({
-            host: config.host,
-            port: config.port,
-            password: config.password
+            host: config.redisHost || config.host,
+            port: config.redisPort || config.port,
+            password: config.redisPassword || config.password
         });
         ends.push(() => new Promise(() => client.end(false)));
         const logger = redisLogger(config, redis);
