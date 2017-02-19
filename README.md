@@ -15,9 +15,9 @@ where we extract the `config` from `process.env` according to the `spec` and inv
 
 ## Used by
 
-https://github.com/evanx/reo
-
-https://github.com/evanx/scan-expire
+- https://github.com/evanx/re8
+- https://github.com/evanx/retask
+- https://github.com/evanx/scan-expire
 
 <hr>
 
