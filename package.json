@@ -1,6 +1,6 @@
 {
   "name": "redis-app-rpf",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Redis application archetype.",
   "main": "index.js",
   "scripts": {
