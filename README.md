@@ -21,7 +21,10 @@ where we extract the `config` from `process.env` according to the `spec` and inv
 
 - https://github.com/evanx/refile
 - https://github.com/evanx/retask
+- https://github.com/evanx/resplit
+- https://github.com/evanx/reimport
 - https://github.com/evanx/scan-expire
+- https://github.com/evanx/scan-llen
 
 <hr>
 
