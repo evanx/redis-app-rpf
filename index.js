@@ -21,12 +21,12 @@ function DataError(message, data) {
 }
 
 function StatusError(message, statusCode, data) {
-   this.name = 'StatusError';
-   this.message = message;
-   this.statusCode = statusCode;
-   this.data = data;
-   this.constructor.prototype.__proto__ = Error.prototype;
-   Error.captureStackTrace(this, this.constructor);
+    this.name = 'StatusError';
+    this.message = message;
+    this.statusCode = statusCode;
+    this.data = data;
+    this.constructor.prototype.__proto__ = Error.prototype;
+    Error.captureStackTrace(this, this.constructor);
 }
 
 function asserta(actual, expected) {
@@ -42,17 +42,13 @@ function asserto(object) {
     }
 }
 
-const debug = () => undefined;
-
-module.exports = async (spec, main) => {
-    debug(`redisApp '${spec.description}' {${Object.keys(spec.required).join(', ')}}`);
+module.exports = async (pkg, spec, main) => {
     const ends = [];
     const end = code => Promise.all(ends.map(end => {
         end().catch(err => console.error('end', err.message));
     })).then(() => process.exit(code));
     try {
-        const defaults = spec[process.env.NODE_ENV || 'production'];
-        const config = appSpec(spec, process.env, {defaults});
+        const config = appSpec(pkg, spec);
         const client = redis.createClient({
             host: config.redisHost || config.host,
             port: config.redisPort || config.port,
@@ -63,7 +59,7 @@ module.exports = async (spec, main) => {
         logger.level = config.loggerLevel;
         await main({
             assert, clc, lodash, Promise,
-            asserta, asserto, 
+            asserta, asserto,
             DataError, StatusError,
             redis, client, logger, config, ends,
             multiExecAsync
