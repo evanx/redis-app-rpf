@@ -66,11 +66,12 @@ module.exports = async (pkg, spec, main) => {
         });
         end(0);
     } catch (err) {
-        console.log();
+        console.error();
         console.error(clc.red.bold(err.message));
         if (err.data) {
             console.error(clc.yellow(JSON.stringify(err.data, null, 2)));
         }
+        console.error();
         console.error(err);
         end(1);
     }
