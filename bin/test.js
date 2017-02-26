@@ -26,7 +26,7 @@ require('../index')({
     }),
     defaults: {
         development: {
-            loggerLevel: 'debug'
+            loggerLevel1: 'debug'
         }
     }
 }), context => console.log(context.config, Object.keys(context)));
