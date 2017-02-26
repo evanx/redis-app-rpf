@@ -66,7 +66,8 @@ module.exports = async (pkg, spec, main) => {
         });
         end(0);
     } catch (err) {
-        console.error(['', clc.red.bold(err.message), ''].join('\n'));
+        console.log();
+        console.error(clc.red.bold(err.message));
         if (err.data) {
             console.error(clc.yellow(JSON.stringify(err.data, null, 2)));
         }
