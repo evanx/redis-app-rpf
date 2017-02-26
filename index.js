@@ -70,9 +70,10 @@ module.exports = async (pkg, spec, main) => {
         console.error(clc.red.bold(err.message));
         if (err.data) {
             console.error(clc.yellow(JSON.stringify(err.data, null, 2)));
+        } else {
+          console.error();
+          console.error(err.stack);
         }
-        console.error();
-        console.error(err.stack);
         end(1);
     }
 };
