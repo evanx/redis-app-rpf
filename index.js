@@ -68,7 +68,7 @@ module.exports = async (pkg, spec, main) => {
     } catch (err) {
         console.error(['', clc.red.bold(err.message), ''].join('\n'));
         if (err.data) {
-            console.error(clc.yellow(err.data));
+            console.error(clc.yellow(JSON.stringify(err.data, null, 2)));
         }
         console.error(err);
         end(1);
