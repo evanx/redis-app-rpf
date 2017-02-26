@@ -72,7 +72,7 @@ module.exports = async (pkg, spec, main) => {
             console.error(clc.yellow(JSON.stringify(err.data, null, 2)));
         }
         console.error();
-        console.error(err);
+        console.error(err.stack);
         end(1);
     }
 };
