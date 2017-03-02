@@ -1,6 +1,6 @@
 {
-  "name": "redis-app-rpf",
-  "version": "0.7.18",
+  "name": "redis-app",
+  "version": "0.8.0",
   "description": "Redis application archetype.",
   "main": "index.js",
   "scripts": {
@@ -23,10 +23,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/evanx/redis-app-rpf.git"
+    "url": "https://github.com/evanx/redis-app.git"
   },
   "bugs": {
-    "url": "https://github.com/evanx/redis-app-rpf/issues"
+    "url": "https://github.com/evanx/redis-app/issues"
   },
-  "homepage": "https://github.com/evanx/redis-app-rpf#readme"
+  "homepage": "https://github.com/evanx/redis-app#readme"
 }

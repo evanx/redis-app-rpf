@@ -1,5 +1,5 @@
 
-# redis-app-rpf
+# redis-app
 
 Redis application archetype.
 
@@ -10,9 +10,9 @@ This provides lifecycle boilerplate reused across similar applications.
 
 ## Usage
 
-The `index.js` entry-point uses the `redis-app-rpf` application archetype.
+The `index.js` entry-point uses the `redis-app` application archetype.
 ```javascript
-require('redis-app-rpf')(
+require('redis-app')(
     require('../package'),
     require('./spec'),
     require('./main')
