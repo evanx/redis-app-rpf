@@ -5,11 +5,20 @@ Redis application archetype.
 
 Named in honour of https://en.wikipedia.org/wiki/Richard_Feynman 
 
+This provides lifecycle boilerplate reused across similar applications.
+
+
 ## Usage
 
 The `index.js` entry-point uses the `redis-app-rpf` application archetype.
-```
-require('redis-app-rpf')(require('./spec'), require('./main'));
+```javascript
+require('redis-app-rpf')(
+    require('../package'),
+    require('./spec'),
+    require('./main')
+).catch(err => {
+    console.error(err);
+});
 ```
 where we extract the `config` from `process.env` according to the `spec` and invoke our `main` function.
 
@@ -19,12 +28,13 @@ where we extract the `config` from `process.env` according to the `spec` and inv
 
 ## Used by
 
-- https://github.com/evanx/refile
-- https://github.com/evanx/retask
-- https://github.com/evanx/resplit
-- https://github.com/evanx/reimport
 - https://github.com/evanx/scan-expire
 - https://github.com/evanx/scan-llen
+- https://github.com/evanx/retask
+- https://github.com/evanx/refile
+- https://github.com/evanx/recopy
+- https://github.com/evanx/resplit
+- https://github.com/evanx/reimport
 
 <hr>
 
