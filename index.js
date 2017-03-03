@@ -73,7 +73,6 @@ module.exports = async (pkg, spec, main) => {
         const logger = redisLogger(config, redis);
         logger.level = config.loggerLevel;
         Object.assign(global, {
-            application,
             assert, clc, lodash, Promise,
             asserta, asserto,
             DataError, StatusError,
