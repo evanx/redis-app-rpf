@@ -83,6 +83,7 @@ module.exports = async (pkg, spec, main) => {
         exits.push(() => new Promise(() => client.end(false)));
         const logger = redisLogger(config, redis);
         logger.level = config.loggerLevel;
+        logger.info({config});
         return {
             assert, clc, lodash, Promise,
             asserta, asserto,
