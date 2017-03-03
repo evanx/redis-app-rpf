@@ -42,26 +42,37 @@ function asserto(object) {
     }
 }
 
+const printError = err => {
+    console.error();
+    console.error(clc.red.bold(err.message));
+    if (err.data) {
+        console.error(clc.yellow(JSON.stringify(err.data, null, 2)));
+    } else {
+        console.error();
+        console.error(err.stack);
+    }
+};
+
+const exits = [];
+
+const exitCode = code => Promise.all(exits.map(exit => {
+    exit()
+    .catch(
+        err => console.error('exit', err.message)
+    );
+}))
+.then(() => process.exit(code));
+
+const exit = err => {
+    if (!err) {
+        exitCode(0);
+    } else {
+        printError(err);
+        exitCode(1);
+    }
+};
+
 module.exports = async (pkg, spec, main) => {
-    const exits = [];
-    const exitCode = code => Promise.all(exits.map(exit => {
-        exit().catch(err => console.error('exit', err.message));
-    })).then(() => process.exit(code));
-    const exit = err => {
-        if (!err) {
-            exitCode(0);
-        } else {
-            console.error();
-            console.error(clc.red.bold(err.message));
-            if (err.data) {
-                console.error(clc.yellow(JSON.stringify(err.data, null, 2)));
-            } else {
-                console.error();
-                console.error(err.stack);
-            }
-            exitCode(1);
-        }
-    };
     try {
         const config = appSpec(pkg, spec);
         const client = redis.createClient({
