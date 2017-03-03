@@ -84,14 +84,17 @@ module.exports = async (pkg, spec, main) => {
         const logger = redisLogger(config, redis);
         logger.level = config.loggerLevel;
         logger.info({config});
-        return {
+        const redisApp = {
             assert, clc, lodash, Promise,
             asserta, asserto,
             DataError, StatusError,
-            redis, client, logger, config, exitApplication,
+            redis, client, logger, config,
             multiExecAsync
         };
+        Object.assign(global, {redisApp}, redisApp);
+        await main()();
+        exitApplication();
     } catch (err) {
-        exit(err);
+        exitApplication(err);
     }
 };
