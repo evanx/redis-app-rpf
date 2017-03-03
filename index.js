@@ -44,9 +44,22 @@ function asserto(object) {
 
 module.exports = async (pkg, spec, main) => {
     const ends = [];
-    const end = code => Promise.all(ends.map(end => {
-        end().catch(err => console.error('end', err.message));
-    })).then(() => process.exit(code));
+    const application = {
+        end: code => Promise.all(ends.map(end => {
+            end().catch(err => console.error('end', err.message));
+        })).then(() => process.exit(code)).
+        catch: err => {
+            console.error();
+            console.error(clc.red.bold(err.message));
+            if (err.data) {
+                console.error(clc.yellow(JSON.stringify(err.data, null, 2)));
+            } else {
+              console.error();
+              console.error(err.stack);
+            }
+            application.end(1);
+        }
+    };
     try {
         const config = appSpec(pkg, spec);
         const client = redis.createClient({
@@ -57,23 +70,16 @@ module.exports = async (pkg, spec, main) => {
         ends.push(() => new Promise(() => client.end(false)));
         const logger = redisLogger(config, redis);
         logger.level = config.loggerLevel;
-        await main({
+        Object.assign(global, {
+            application,
             assert, clc, lodash, Promise,
             asserta, asserto,
             DataError, StatusError,
-            redis, client, logger, config, ends,
+            redis, client, logger, config,
             multiExecAsync
         });
-        end(0);
+        return application;
     } catch (err) {
-        console.error();
-        console.error(clc.red.bold(err.message));
-        if (err.data) {
-            console.error(clc.yellow(JSON.stringify(err.data, null, 2)));
-        } else {
-          console.error();
-          console.error(err.stack);
-        }
-        end(1);
+        application.catch(err);
     }
 };
