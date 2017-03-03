@@ -47,7 +47,7 @@ module.exports = async (pkg, spec, main) => {
     const application = {
         end: code => Promise.all(ends.map(end => {
             end().catch(err => console.error('end', err.message));
-        })).then(() => process.exit(code)).
+        })).then(() => process.exit(code)),
         catch: err => {
             console.error();
             console.error(clc.red.bold(err.message));
