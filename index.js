@@ -76,10 +76,10 @@ module.exports = async (pkg, spec, main) => {
             assert, clc, lodash, Promise,
             asserta, asserto,
             DataError, StatusError,
-            redis, client, logger, config,
+            redis, client, logger, config, exit,
             multiExecAsync
         });
-        return exit;
+        return redisApp;
     } catch (err) {
         exit(err);
     }
