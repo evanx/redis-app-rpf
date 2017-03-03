@@ -43,12 +43,12 @@ function asserto(object) {
 }
 
 module.exports = async (pkg, spec, main) => {
-    const ends = [];
+    const exits = [];
     const application = {
-        end: code => Promise.all(ends.map(end => {
-            end().catch(err => console.error('end', err.message));
+        exit: code => Promise.all(exits.map(exit => {
+            exit().catch(err => console.error('exit', err.message));
         })).then(() => process.exit(code)),
-        catch: err => {
+        error: err => {
             console.error();
             console.error(clc.red.bold(err.message));
             if (err.data) {
@@ -57,7 +57,7 @@ module.exports = async (pkg, spec, main) => {
               console.error();
               console.error(err.stack);
             }
-            application.end(1);
+            application.exit(1);
         }
     };
     try {
@@ -67,7 +67,7 @@ module.exports = async (pkg, spec, main) => {
             port: config.redisPort || config.port,
             password: config.redisPassword || config.password
         });
-        ends.push(() => new Promise(() => client.end(false)));
+        exits.push(() => new Promise(() => client.end(false)));
         const logger = redisLogger(config, redis);
         logger.level = config.loggerLevel;
         Object.assign(global, {
@@ -80,6 +80,6 @@ module.exports = async (pkg, spec, main) => {
         });
         return application;
     } catch (err) {
-        application.catch(err);
+        application.error(err);
     }
 };
