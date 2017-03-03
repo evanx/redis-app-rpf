@@ -44,42 +44,45 @@ function asserto(object) {
 
 module.exports = async (pkg, spec, main) => {
     const exits = [];
+    const exit = code => Promise.all(exits.map(exit => {
+        exit().catch(err => console.error('exit', err.message));
+    })).then(() => process.exit(code));
     const application = {
-        exit: code => Promise.all(exits.map(exit => {
-            exit().catch(err => console.error('exit', err.message));
-        })).then(() => process.exit(code)),
-        error: err => {
-            console.error();
-            console.error(clc.red.bold(err.message));
-            if (err.data) {
-                console.error(clc.yellow(JSON.stringify(err.data, null, 2)));
+        exit: err => {
+            if (!err) {
+                application.exit(0);
             } else {
-              console.error();
-              console.error(err.stack);
+                console.error();
+                console.error(clc.red.bold(err.message));
+                if (err.data) {
+                    console.error(clc.yellow(JSON.stringify(err.data, null, 2)));
+                } else {
+                    console.error();
+                    console.error(err.stack);
+                }
+                application.exit(1);
             }
-            application.exit(1);
+        };
+        try {
+            const config = appSpec(pkg, spec);
+            const client = redis.createClient({
+                host: config.redisHost || config.host,
+                port: config.redisPort || config.port,
+                password: config.redisPassword || config.password
+            });
+            exits.push(() => new Promise(() => client.end(false)));
+            const logger = redisLogger(config, redis);
+            logger.level = config.loggerLevel;
+            Object.assign(global, {
+                application,
+                assert, clc, lodash, Promise,
+                asserta, asserto,
+                DataError, StatusError,
+                redis, client, logger, config,
+                multiExecAsync
+            });
+            return application;
+        } catch (err) {
+            application.exit(err);
         }
     };
-    try {
-        const config = appSpec(pkg, spec);
-        const client = redis.createClient({
-            host: config.redisHost || config.host,
-            port: config.redisPort || config.port,
-            password: config.redisPassword || config.password
-        });
-        exits.push(() => new Promise(() => client.end(false)));
-        const logger = redisLogger(config, redis);
-        logger.level = config.loggerLevel;
-        Object.assign(global, {
-            application,
-            assert, clc, lodash, Promise,
-            asserta, asserto,
-            DataError, StatusError,
-            redis, client, logger, config,
-            multiExecAsync
-        });
-        return application;
-    } catch (err) {
-        application.error(err);
-    }
-};
