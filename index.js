@@ -63,7 +63,7 @@ const exitCode = code => Promise.all(exits.map(exit => {
 }))
 .then(() => process.exit(code));
 
-const exit = err => {
+const exitApplication = err => {
     if (!err) {
         exitCode(0);
     } else {
@@ -87,7 +87,7 @@ module.exports = async (pkg, spec, main) => {
             assert, clc, lodash, Promise,
             asserta, asserto,
             DataError, StatusError,
-            redis, client, logger, config, exit,
+            redis, client, logger, config, exitApplication,
             multiExecAsync
         };
     } catch (err) {
