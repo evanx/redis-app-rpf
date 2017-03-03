@@ -72,9 +72,9 @@ const exitApplication = err => {
     }
 };
 
-module.exports = async (pkg, spec, main) => {
+module.exports = async (pkg, specf, main) => {
     try {
-        const config = appSpec(pkg, spec);
+        const config = appSpec(pkg, specf);
         const client = redis.createClient({
             host: config.redisHost || config.host,
             port: config.redisPort || config.port,
@@ -84,6 +84,7 @@ module.exports = async (pkg, spec, main) => {
         const logger = redisLogger(config, redis);
         logger.level = config.loggerLevel;
         logger.info({config});
+        const spec = specf(pkg);
         const redisApp = {
             assert, clc, lodash, Promise,
             asserta, asserto,
@@ -91,6 +92,11 @@ module.exports = async (pkg, spec, main) => {
             redis, client, logger, config,
             multiExecAsync
         };
+        if (spec.redisK) {
+           assert(typeof spec.redisK === 'function', 'redisK function');
+           const redisK = spec.redisK(config);
+           redisApp.redisK = redisK;
+        }
         Object.assign(global, {redisApp}, redisApp);
         await main()();
         exitApplication();
