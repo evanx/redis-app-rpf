@@ -6,6 +6,8 @@ const bluebird = require('bluebird');
 const clc = require('cli-color');
 const multiExecAsync = require('multi-exec-async');
 const redisLogger = require('redis-logger-rpf');
+const reduceKeys = require('reduce-keys');
+const mapProperties = require('map-properties');
 const appSpec = require('app-spec');
 const Promise = bluebird;
 
@@ -94,8 +96,12 @@ module.exports = async (pkg, specf, main) => {
         };
         if (spec.redisK) {
            assert(typeof spec.redisK === 'function', 'redisK function');
-           const redisK = spec.redisK(config);
-           redisApp.redisK = redisK;
+           const redisK = spec.redisK(config)
+           const invalidKeys = Object.keys(redisK).filter(key => redisK[key].key === undefined);
+           if (invalidKeys.length) {
+               throw new DataError('Redis key spec', {invalidKeys});
+           }
+           redisApp.redisK = mapProperties(redisK, meta => meta.key);
         }
         Object.assign(global, {redisApp}, redisApp);
         await main()();
