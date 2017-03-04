@@ -15,7 +15,7 @@ The `index.js` entry-point uses the `redis-app` application archetype.
 require('redis-app')(
     require('../package'),
     require('./spec'),
-    require('./main')
+    () => require('./main')
 ).catch(err => {
     console.error(err);
 });

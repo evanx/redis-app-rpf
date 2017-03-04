@@ -74,8 +74,25 @@ const exitApplication = err => {
     }
 };
 
+const mapRedisK = (spec, config) => {
+    assert(typeof spec.redisK === 'function', 'redisK function');
+    const redisK = spec.redisK(config);
+    const invalidKeys = Object.keys(redisK).filter(key => redisK[key].key === undefined);
+    if (invalidKeys.length) {
+        throw new DataError('Redis key spec', {invalidKeys});
+    }
+    return mapProperties(
+        redisK,
+        meta =>
+        typeof meta.key === 'string' && meta.key[0] === ':' ?
+        config.redisNamespace + meta.key :
+        meta.key
+    );
+}
+
 module.exports = async (pkg, specf, main) => {
     try {
+        const spec = specf(pkg);
         const config = appSpec(pkg, specf);
         const client = redis.createClient({
             host: config.redisHost || config.host,
@@ -86,7 +103,6 @@ module.exports = async (pkg, specf, main) => {
         const logger = redisLogger(config, redis);
         logger.level = config.loggerLevel;
         logger.info({config});
-        const spec = specf(pkg);
         const redisApp = {
             assert, clc, lodash, Promise,
             asserta, asserto,
@@ -95,13 +111,7 @@ module.exports = async (pkg, specf, main) => {
             multiExecAsync
         };
         if (spec.redisK) {
-           assert(typeof spec.redisK === 'function', 'redisK function');
-           const redisK = spec.redisK(config)
-           const invalidKeys = Object.keys(redisK).filter(key => redisK[key].key === undefined);
-           if (invalidKeys.length) {
-               throw new DataError('Redis key spec', {invalidKeys});
-           }
-           redisApp.redisK = mapProperties(redisK, meta => meta.key);
+            redisApp.redisK = mapRedisK(spec, config);
         }
         Object.assign(global, {redisApp}, redisApp);
         await main()();
