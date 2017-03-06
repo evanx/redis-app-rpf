@@ -115,7 +115,7 @@ module.exports = async (pkg, specf, main) => {
         const redisApp = {
             assert, clc, lodash, Promise,
             asserta, asserto,
-            DataError, StatusError,
+            DataError, StatusError, UrlStatusError,
             redis, client, logger, config,
             multiExecAsync
         };
