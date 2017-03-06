@@ -31,6 +31,15 @@ function StatusError(message, statusCode, data) {
     Error.captureStackTrace(this, this.constructor);
 }
 
+function UrlStatusError(url, statusCode, data) {
+    this.name = 'UrlStatusError';
+    this.message = `Status ${statusCode} for URL ${url}`;
+    this.statusCode = statusCode;
+    this.data = data;
+    this.constructor.prototype.__proto__ = Error.prototype;
+    Error.captureStackTrace(this, this.constructor);
+}
+
 function asserta(actual, expected) {
     if (actual !== expected) {
         throw new DataError('Unexpected', {actual, expected});
