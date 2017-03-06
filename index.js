@@ -37,10 +37,10 @@ function asserta(actual, expected) {
     }
 }
 
-function asserto(object) {
+function asserto(object, ...data) {
     const key = Object.keys(object).find(key => !object[key]);
     if (key) {
-        throw new DataError('Missing', {key});
+        throw new DataError('Missing', {key, data});
     }
 }
 
