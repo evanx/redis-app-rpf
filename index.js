@@ -24,7 +24,7 @@ function DataError(message, data) {
 
 function StatusError(message, statusCode, data) {
     this.name = 'StatusError';
-    this.message = message;
+    this.message = message || `Status ${statusCode}`;
     this.statusCode = statusCode;
     this.data = data;
     this.constructor.prototype.__proto__ = Error.prototype;
