@@ -110,8 +110,12 @@ module.exports = async (pkg, specf, main) => {
         });
         exits.push(() => new Promise(() => client.end(false)));
         const logger = redisLogger(config, redis);
-        logger.level = config.loggerLevel;
-        logger.info({config});
+        if (config.loggerLevel) {
+            logger.level = config.loggerLevel;
+            if (process.env.mode !== 'quiet') {
+                logger.info({config});
+            }
+        }
         const redisApp = {
             assert, clc, lodash, Promise,
             asserta, asserto,
