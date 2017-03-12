@@ -15,12 +15,24 @@ The `index.js` entry-point uses the `redis-app` application archetype.
 require('redis-app')(
     require('../package'),
     require('./spec'),
+    async redisApp => Object.assign(global, redisApp),
     () => require('./main')
 ).catch(err => {
     console.error(err);
 });
 ```
 where we extract the `config` from `process.env` according to the `spec` and invoke our `main` function.
+
+In the above example, we assign the archetype's dependencies on `global` before `main.js` is parsed i.e. including:
+```
+    const redisApp = {
+        assert, clc, lodash, Promise,
+        asserta, asserto,
+        DataError, StatusError, UrlStatusError,
+        redis, client, logger, config,
+        multiExecAsync
+    };
+```
 
 ## Uses
 
