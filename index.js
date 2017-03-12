@@ -99,8 +99,11 @@ const mapRedisK = (spec, config) => {
     );
 }
 
-module.exports = async (pkg, specf, main) => {
+module.exports = async (pkg, specf, prepare, main) => {
     try {
+        if (typeof main !== 'function') {
+           throw new Error(`Archetype requires 'prepare' and 'main' functions`);
+        }
         const spec = specf(pkg);
         const config = appSpec(pkg, specf);
         const client = redis.createClient({
@@ -126,8 +129,8 @@ module.exports = async (pkg, specf, main) => {
         if (spec.redisK) {
             redisApp.redisK = mapRedisK(spec, config);
         }
-        Object.assign(global, {redisApp}, redisApp);
-        await main()();
+	await prepare(redisApp);
+        await main()(redisApp);
         exitApplication();
     } catch (err) {
         exitApplication(err);
