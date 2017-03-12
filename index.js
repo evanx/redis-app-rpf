@@ -105,7 +105,7 @@ module.exports = async (pkg, specf, prepare, main) => {
            throw new Error(`Archetype requires 'prepare' and 'main' functions`);
         }
         const spec = specf(pkg);
-        const config = appSpec(pkg, specf);
+        const config = appSpec(pkg, specf, process.env);
         const client = redis.createClient({
             host: config.redisHost || config.host,
             port: config.redisPort || config.port,
