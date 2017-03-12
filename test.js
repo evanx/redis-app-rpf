@@ -1,5 +1,5 @@
 
-require('../index')({
+require('./index')({
     name: 'test_name',
     description: 'Test description'
 }, pkg => ({
@@ -29,4 +29,7 @@ require('../index')({
             loggerLevel1: 'debug'
         }
     }
-}), context => console.log(context.config, Object.keys(context)));
+}), 
+context => console.log(context.config, Object.keys(context)),
+() => context => console.log(context.config, Object.keys(context))
+);
