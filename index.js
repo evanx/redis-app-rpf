@@ -9,6 +9,7 @@ const redisLogger = require('redis-logger-rpf');
 const reduceKeys = require('reduce-keys');
 const mapProperties = require('map-properties');
 const appSpec = require('app-spec');
+const objecta = require('objecta');
 const Promise = bluebird;
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
@@ -121,7 +122,7 @@ module.exports = async (pkg, specf, prepare, main) => {
         }
         const redisApp = {
             assert, clc, lodash, Promise,
-            asserta, asserto,
+            asserta, asserto, objecta,
             DataError, StatusError, UrlStatusError,
             redis, client, logger, config,
             multiExecAsync
