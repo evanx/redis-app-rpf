@@ -1,6 +1,6 @@
 {
   "name": "redis-app",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "description": "Redis application archetype.",
   "main": "index.js",
   "scripts": {
