@@ -1,6 +1,6 @@
 {
   "name": "redis-app",
-  "version": "0.12.2",
+  "version": "0.13.1",
   "description": "Redis application archetype.",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "multi-exec-async": "^0.2.0",
     "objecta": "^0.1.7",
     "redis": "^2.6.4",
-    "redis-logger-rpf": "^0.2.14",
+    "redis-logger-rpf": "^0.3.3",
     "reduce-keys": "^0.1.5"
   },
   "devDependencies": {
