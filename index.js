@@ -17,7 +17,7 @@ bluebird.promisifyAll(redis.Multi.prototype);
 
 process.stdout.on('error', err => {
     if (err.code === 'EPIPE') {
-        console.error(clc.cyan(`stdout EPIPE`));
+        console.error(clc.yellow(`stdout EPIPE`));
         process.exit(0);
     } else {
         console.error(clc.red(err.message));
