@@ -84,6 +84,16 @@ const exitApplication = err => {
     }
 };
 
+process.stdout.on('error', err => {
+    if (err.code === 'EPIPE') {
+        console.error(clc.cyan(`stdout EPIPE`));
+        process.exit(0);
+    } else {
+        console.error(clc.red(err.message));
+        process.exit(1);
+    }
+});
+
 const mapRedisK = (spec, config) => {
     assert(typeof spec.redisK === 'function', 'redisK function');
     const redisK = spec.redisK(config);
