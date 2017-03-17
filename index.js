@@ -15,6 +15,16 @@ const Promise = bluebird;
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
 
+process.stdout.on('error', err => {
+    if (err.code === 'EPIPE') {
+        console.error(clc.cyan(`stdout EPIPE`));
+        process.exit(0);
+    } else {
+        console.error(clc.red(err.message));
+        process.exit(1);
+    }
+});
+
 function DataError(message, data) {
     this.name = 'DataError';
     this.message = message;
@@ -83,16 +93,6 @@ const exitApplication = err => {
         exitCode(1);
     }
 };
-
-process.stdout.on('error', err => {
-    if (err.code === 'EPIPE') {
-        console.error(clc.cyan(`stdout EPIPE`));
-        process.exit(0);
-    } else {
-        console.error(clc.red(err.message));
-        process.exit(1);
-    }
-});
 
 const mapRedisK = (spec, config) => {
     assert(typeof spec.redisK === 'function', 'redisK function');
