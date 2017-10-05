@@ -3,8 +3,6 @@
 
 Redis application archetype.
 
-Named in honour of https://en.wikipedia.org/wiki/Richard_Feynman 
-
 This provides lifecycle boilerplate reused across similar applications.
 
 
