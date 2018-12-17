@@ -141,7 +141,7 @@ module.exports = async (pkg, specf, prepare, main) => {
             redisApp.redisK = mapRedisK(spec, config);
         }
 	await prepare(redisApp);
-        await main()(redisApp);
+	await main()(redisApp);
         exitApplication();
     } catch (err) {
         exitApplication(err);
