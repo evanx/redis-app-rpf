@@ -13,7 +13,7 @@
     "app-spec": "^0.11.6",
     "bluebird": "^3.4.6",
     "cli-color": "^1.1.0",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.14",
     "map-properties": "^0.1.2",
     "multi-exec-async": "^0.2.0",
     "objecta": "^0.1.7",
@@ -22,7 +22,7 @@
     "reduce-keys": "^0.1.5"
   },
   "devDependencies": {
-    "eslint": "^6.0.0"
+    "eslint": "^6.0.1"
   },
   "repository": {
     "type": "git",
