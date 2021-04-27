@@ -17,7 +17,7 @@
     "map-properties": "^0.1.2",
     "multi-exec-async": "^0.2.0",
     "objecta": "^0.1.7",
-    "redis": "^2.6.4",
+    "redis": "^3.1.1",
     "redis-logger-rpf": "^0.3.2",
     "reduce-keys": "^0.1.5"
   },
